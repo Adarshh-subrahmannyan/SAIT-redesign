@@ -83,7 +83,6 @@ export default function StorySection() {
                 opacity: opacities[i],
                 fontSize: "clamp(3.5rem,8vw,7rem)",
                 color: "var(--copper)",
-                opacity: opacities[i],
                 filter: "opacity(0.12)",
               }}
             >
