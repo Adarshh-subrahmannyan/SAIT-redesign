@@ -181,11 +181,11 @@ export default function AboutPage() {
             {[
               {
                 label: "Vision",
-                text: "To be a department where students leave equipped not just with a degree, but with a working practice of building, shipping, and mentoring others through the same climb.",
+                text: "To be a major contributor to the global technology base through high-level scholarship, innovation, and research.",
               },
               {
                 label: "Mission",
-                text: "Run consistent, well-documented technical programming — workshops, hackathons, and an open record of student activity — that students can point to at placement time.",
+                text: "Education & Partnerships: Deliver quality engineering education across all levels through balanced programs, and build strong collaborative partnerships with industry, alumni, and government bodies.",
               },
             ].map((item, i) => (
               <motion.div
