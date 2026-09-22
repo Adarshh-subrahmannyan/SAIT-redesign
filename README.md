@@ -20,3 +20,4 @@ swap it for real department data before a production launch.
 
 ## Deploy
 Push to GitHub, then import the repo at vercel.com/new. No environment variables required.
+# SAIT-redesign
