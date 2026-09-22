@@ -168,7 +168,7 @@ export default function AboutPage() {
             The department, and the association behind it.
           </h1>
           <p className="text-paper/70 mt-4 max-w-lg text-sm sm:text-base leading-relaxed">
-            Two histories, one hallway — how CUSAT's IT department and SAIT grew
+            Two histories, one hallway — how CUSAT&apos;s IT department and SAIT grew
             alongside each other.
           </p>
         </motion.div>
