@@ -2,18 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { NAV } from "@/data/nav";
 import { cn } from "@/lib/utils";
 import { useIntro } from "@/components/providers/IntroProvider";
 
+// First 3 items shown directly; the rest go in "More"
+const PRIMARY_HREFS = ["/", "/about", "/events"];
+
 export default function Navbar() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { introComplete } = useIntro();
+  const moreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -22,7 +27,25 @@ export default function Navbar() {
   }, []);
 
   // Close mobile menu on route change
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => setMobileOpen(false), [pathname]);
+
+  // Close "More" dropdown when clicking outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // Close dropdown on route change
+  useEffect(() => setMoreOpen(false), [pathname]);
+
+  const primaryNav = NAV.filter((n) => PRIMARY_HREFS.includes(n.href));
+  const moreNav = NAV.filter((n) => !PRIMARY_HREFS.includes(n.href));
+  const moreIsActive = moreNav.some((n) => pathname === n.href);
 
   return (
     <motion.header
@@ -52,7 +75,8 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-7 text-sm" aria-label="Main navigation">
-          {NAV.filter((n) => n.href !== "/activity-logger").map((n) => {
+          {/* Primary items */}
+          {primaryNav.map((n) => {
             const active = pathname === n.href;
             return (
               <Link
@@ -74,22 +98,85 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          {/* More dropdown */}
+          <div ref={moreRef} className="relative">
+            <button
+              id="more-menu-btn"
+              aria-haspopup="true"
+              aria-expanded={moreOpen}
+              onClick={() => setMoreOpen((o) => !o)}
+              className={cn(
+                "relative flex items-center gap-1 py-1 text-inksoft hover:text-ink transition-colors duration-150 font-body tracking-wide",
+                moreIsActive && "text-ink"
+              )}
+            >
+              More
+              <motion.span
+                animate={{ rotate: moreOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChevronDown size={14} strokeWidth={1.75} />
+              </motion.span>
+              {moreIsActive && (
+                <motion.span
+                  layoutId="nav-indicator"
+                  className="absolute left-0 right-0 -bottom-[1px] h-[2px] bg-copper"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+            </button>
+
+            <AnimatePresence>
+              {moreOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className="absolute right-0 top-full mt-3 w-48 border border-line bg-paper/98 backdrop-blur-md shadow-lg"
+                  role="menu"
+                  aria-labelledby="more-menu-btn"
+                >
+                  {moreNav.map((n) => {
+                    const active = pathname === n.href;
+                    return (
+                      <Link
+                        key={n.href}
+                        href={n.href}
+                        role="menuitem"
+                        className={cn(
+                          "flex items-center justify-between px-4 py-2.5 text-sm text-inksoft hover:text-ink hover:bg-line/30 transition-colors border-b border-line/50 last:border-0",
+                          active && "text-copperdeep font-medium"
+                        )}
+                      >
+                        {n.label}
+                        {active && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-copper" />
+                        )}
+                      </Link>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </nav>
 
         {/* Mobile toggle */}
         <button
-          onClick={() => setOpen((o) => !o)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
+          onClick={() => setMobileOpen((o) => !o)}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
           className="lg:hidden w-9 h-9 flex items-center justify-center text-inksoft hover:text-ink transition-colors"
         >
-          {open ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
+          {mobileOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
         </button>
       </div>
 
       {/* Mobile menu */}
       <AnimatePresence>
-        {open && (
+        {mobileOpen && (
           <motion.nav
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -116,3 +203,4 @@ export default function Navbar() {
     </motion.header>
   );
 }
+
