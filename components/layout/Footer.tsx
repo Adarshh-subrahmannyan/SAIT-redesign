@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Instagram, Linkedin, Github } from "lucide-react";
 import AnimatedText from "@/components/animations/AnimatedText";
 
@@ -24,10 +25,9 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 gap-16 mb-24">
           <div>
             <div className="flex items-center gap-2.5 mb-6">
-              <span className="w-10 h-10 rounded-full flex items-center justify-center font-grotesk font-bold text-lg text-black"
-                style={{ background: "var(--yellow)" }}>
-                S
-              </span>
+              <div className="flex items-center justify-center">
+                <Image src="/logo.png" alt="SAIT Logo" width={40} height={40} className="rounded-full" />
+              </div>
               <span className="font-grotesk font-bold text-xl">SAIT CUSAT</span>
             </div>
             <p className="text-sm leading-relaxed max-w-sm text-white/70 font-body mb-8">
@@ -48,53 +48,54 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
-            <span className="sticker font-grotesk text-xs font-bold text-black mb-4 inline-block"
-              style={{ background: "var(--cyan)" }}>
-              Get in touch
-            </span>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSent(true);
-                (e.target as HTMLFormElement).reset();
-              }}
-              className="space-y-3 mt-2 max-w-md"
-            >
-              <input
-                required
-                type="text"
-                placeholder="Your name"
-                className="w-full px-4 py-3 rounded-xl text-sm bg-white/10 border-2 border-white/10 text-white placeholder:text-white/40 focus:border-white focus:outline-none transition-colors"
-              />
-              <input
-                required
-                type="email"
-                placeholder="Email address"
-                className="w-full px-4 py-3 rounded-xl text-sm bg-white/10 border-2 border-white/10 text-white placeholder:text-white/40 focus:border-white focus:outline-none transition-colors"
-              />
-              {/* As requested in prd_audit.md, adding the missing Subject field */}
-              <input
-                required
-                type="text"
-                placeholder="Subject"
-                className="w-full px-4 py-3 rounded-xl text-sm bg-white/10 border-2 border-white/10 text-white placeholder:text-white/40 focus:border-white focus:outline-none transition-colors"
-              />
-              <textarea
-                required
-                rows={3}
-                placeholder="Message"
-                className="w-full px-4 py-3 rounded-xl text-sm bg-white/10 border-2 border-white/10 text-white placeholder:text-white/40 focus:border-white focus:outline-none transition-colors"
-              />
-              <button className="pill-btn w-full sm:w-auto px-6 py-3 text-sm font-grotesk font-bold bg-white text-black border-2 border-transparent hover:bg-black hover:text-white hover:border-white">
-                Send message
-              </button>
-              {sent && (
-                <p className="text-xs font-bold" style={{ color: "var(--sage)" }}>
-                  Message sent — we&apos;ll reply within 2–3 working days.
-                </p>
-              )}
-            </form>
+          <div className="relative">
+            <div className="island bg-[var(--yellow)] p-6 sm:p-8 border-2 border-black shadow-[8px_8px_0_var(--cyan)] max-w-md transform rotate-1 hover:rotate-0 transition-transform">
+              <span className="sticker font-grotesk text-xs font-bold text-white mb-6 inline-block bg-black border-2 border-black">
+                Get in touch
+              </span>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setSent(true);
+                  (e.target as HTMLFormElement).reset();
+                }}
+                className="space-y-4"
+              >
+                <input
+                  required
+                  type="text"
+                  placeholder="Your name"
+                  className="w-full px-4 py-3 rounded-xl font-body font-bold text-sm bg-white border-2 border-black text-black placeholder:text-black/40 focus:shadow-[4px_4px_0_black] focus:outline-none transition-shadow"
+                />
+                <input
+                  required
+                  type="email"
+                  placeholder="Email address"
+                  className="w-full px-4 py-3 rounded-xl font-body font-bold text-sm bg-white border-2 border-black text-black placeholder:text-black/40 focus:shadow-[4px_4px_0_black] focus:outline-none transition-shadow"
+                />
+                {/* As requested in prd_audit.md, adding the missing Subject field */}
+                <input
+                  required
+                  type="text"
+                  placeholder="Subject"
+                  className="w-full px-4 py-3 rounded-xl font-body font-bold text-sm bg-white border-2 border-black text-black placeholder:text-black/40 focus:shadow-[4px_4px_0_black] focus:outline-none transition-shadow"
+                />
+                <textarea
+                  required
+                  rows={3}
+                  placeholder="Message"
+                  className="w-full px-4 py-3 rounded-xl font-body font-bold text-sm bg-white border-2 border-black text-black placeholder:text-black/40 focus:shadow-[4px_4px_0_black] focus:outline-none transition-shadow"
+                />
+                <button className="pill-btn w-full sm:w-auto px-8 py-3.5 text-sm font-grotesk font-black bg-[var(--magenta)] text-white border-2 border-black hover:-translate-y-1 hover:shadow-[4px_4px_0_black] uppercase tracking-wide">
+                  Send message
+                </button>
+                {sent && (
+                  <p className="text-sm font-bold mt-2" style={{ color: "var(--indigo-dark)" }}>
+                    Message sent — we&apos;ll reply soon!
+                  </p>
+                )}
+              </form>
+            </div>
           </div>
         </div>
 

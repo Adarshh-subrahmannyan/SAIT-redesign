@@ -23,27 +23,27 @@ export default function LeaderboardFeed() {
   return (
     <div className="grid lg:grid-cols-5 gap-10">
       <div className="lg:col-span-3">
-        <h3 className="font-display text-lg font-semibold mb-4">Verified activity feed</h3>
-        <div className="space-y-3">
+        <h3 className="font-grotesk font-bold text-2xl mb-6 text-black/90">Verified activity feed</h3>
+        <div className="space-y-4">
           {verified.length ? (
             verified.map((s, i) => <HistoryRow key={i} item={s} />)
           ) : (
-            <p className="text-sm text-muted">No verified activity yet.</p>
+            <p className="text-sm font-medium text-black/50">No verified activity yet.</p>
           )}
         </div>
       </div>
       <div className="lg:col-span-2">
-        <h3 className="font-display text-lg font-semibold mb-4">Leaderboard — this semester</h3>
-        <div className="border border-line">
+        <h3 className="font-grotesk font-bold text-2xl mb-6 text-black/90">Leaderboard — this semester</h3>
+        <div className="island border-2 border-black/10 bg-white overflow-hidden">
           {LEADERBOARD.map((l, i) => (
             <div
               key={l.name}
-              className={`flex items-center gap-3 p-4 ${i !== LEADERBOARD.length - 1 ? "border-b border-line" : ""}`}
+              className={`flex items-center gap-3 p-4 sm:p-5 ${i !== LEADERBOARD.length - 1 ? "border-b-2 border-black/10" : ""} hover:bg-black/5 transition-colors`}
             >
-              <span className="mono text-xs w-5 text-muted">{i + 1}</span>
-              <span className="text-sm font-medium flex-1">{l.name}</span>
-              <span className="mono text-xs text-muted">{l.activities} logged</span>
-              <span className="font-display font-semibold text-sm text-copperdeep">{l.points}</span>
+              <span className="font-mono font-bold text-sm w-6 text-black/30">{i + 1}</span>
+              <span className="text-base font-bold text-black/90 flex-1">{l.name}</span>
+              <span className="font-mono text-xs font-bold text-black/40 uppercase tracking-widest">{l.activities} logged</span>
+              <span className="font-grotesk font-bold text-lg" style={{ color: "var(--magenta)" }}>{l.points}</span>
             </div>
           ))}
         </div>

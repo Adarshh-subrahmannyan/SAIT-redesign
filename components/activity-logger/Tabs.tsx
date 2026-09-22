@@ -11,14 +11,16 @@ export default function ActivityLoggerTabs() {
     { href: "/activity-logger/dashboard", label: "Dashboard & feed" },
   ];
   return (
-    <div className="flex gap-2 mb-10 mono text-sm">
+    <div className="flex flex-wrap gap-3 mb-10">
       {tabs.map((t) => (
         <Link
           key={t.href}
           href={t.href}
           className={cn(
-            "px-4 py-2 border border-line",
-            pathname === t.href && "bg-ink text-paper border-ink"
+            "pill-btn px-6 py-3 text-sm font-grotesk font-bold border-2 transition-all",
+            pathname === t.href 
+              ? "bg-black text-white border-black" 
+              : "bg-white text-black/70 border-black/10 hover:border-black hover:text-black hover:bg-black/5"
           )}
         >
           {t.label}

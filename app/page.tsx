@@ -11,9 +11,7 @@ import CTASection from "@/components/home/CTASection";
 export default function HomePage() {
   return (
     <>
-      <div className="max-w-7xl mx-auto">
-        <Hero />
-      </div>
+      <Hero />
       
       {/* Marquee Banner */}
       <div className="border-y-2 border-black/10 py-3 overflow-hidden bg-white mb-16 sm:mb-24 flex">

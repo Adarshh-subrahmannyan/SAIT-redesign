@@ -12,12 +12,14 @@ export default function Tag({
   return (
     <span
       className={cn(
-        "mono text-[0.7rem] border px-2 py-0.5 inline-flex items-center gap-1.5",
-        accent ? "border-copper text-copperdeep" : "border-line",
+        "font-mono text-[0.75rem] font-bold uppercase tracking-widest px-3 py-1 inline-flex items-center gap-1.5 rounded-full border-2",
+        accent 
+          ? "border-black bg-[var(--yellow)] text-black" 
+          : "border-black/10 bg-white text-black/60",
         className
       )}
     >
-      {accent && <span className="w-1.5 h-1.5 rounded-full bg-copper" />}
+      {accent && <span className="w-1.5 h-1.5 rounded-full bg-black shrink-0" />}
       {children}
     </span>
   );

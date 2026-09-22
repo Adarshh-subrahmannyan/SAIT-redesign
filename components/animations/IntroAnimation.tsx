@@ -64,12 +64,12 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
     <AnimatePresence>
       {!exiting && (
         <motion.div
-          className="intro-overlay fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink text-paper select-none"
+          className="intro-overlay fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black text-white select-none"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.85, ease: [0.4, 0, 0.2, 1] }}
         >
-          <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
+          {/* Grid background replaced by flat pop color */}
 
           <div className="relative flex flex-col items-center justify-center min-h-[40vh] px-6">
             <AnimatePresence mode="wait">
@@ -86,7 +86,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                     {currentWord.split("").map((char, i) => (
                       <motion.span
                         key={`${currentWord}-${char}-${i}`}
-                        className="font-display font-bold text-6xl sm:text-8xl md:text-9xl tracking-tight"
+                        className="font-grotesk font-black text-6xl sm:text-8xl md:text-9xl tracking-tight uppercase"
                         initial={{ y: 80, opacity: 0, rotateX: -40 }}
                         animate={{ y: 0, opacity: 1, rotateX: 0 }}
                         transition={{
@@ -100,7 +100,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                     ))}
                   </div>
                   <motion.p
-                    className="mono text-xs sm:text-sm text-muted mt-6 tracking-widest uppercase"
+                    className="font-mono font-bold text-xs sm:text-sm text-white/60 mt-6 tracking-widest uppercase"
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.35, duration: 0.5 }}
@@ -121,7 +121,8 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <motion.div
-                    className="font-display font-bold text-7xl sm:text-9xl tracking-tighter text-copper"
+                    className="font-grotesk font-black text-7xl sm:text-9xl tracking-tighter"
+                    style={{ color: "var(--cyan)" }}
                     initial={{ letterSpacing: "0.4em", opacity: 0 }}
                     animate={{ letterSpacing: "-0.02em", opacity: 1 }}
                     transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -129,14 +130,14 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                     SAIT
                   </motion.div>
                   <motion.p
-                    className="mono text-xs sm:text-sm text-muted mt-4 max-w-md mx-auto leading-relaxed"
+                    className="font-mono font-bold text-xs sm:text-sm text-white/60 mt-4 max-w-md mx-auto leading-relaxed"
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4, duration: 0.6 }}
                   >
                     Students Association of Information Technology
                     <br />
-                    <span className="text-paper/60">Division of IT · SOE CUSAT</span>
+                    <span className="text-white/40">Division of IT · SOE CUSAT</span>
                   </motion.p>
                 </motion.div>
               )}
@@ -153,8 +154,8 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
               {STORY.map((word, i) => (
                 <span
                   key={word}
-                  className={`mono text-[10px] uppercase tracking-widest transition-colors duration-300 ${
-                    phase > i ? "text-copper" : "text-paper/30"
+                  className={`font-mono font-bold text-[10px] uppercase tracking-widest transition-colors duration-300 ${
+                    phase > i ? "text-[var(--cyan)]" : "text-white/30"
                   }`}
                 >
                   {word}
@@ -163,14 +164,15 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
             </div>
             <button
               onClick={finish}
-              className="mono text-xs text-paper/40 hover:text-paper transition-colors uppercase tracking-widest"
+              className="font-mono font-bold text-xs text-white/40 hover:text-white transition-colors uppercase tracking-widest"
             >
               Skip intro
             </button>
           </motion.div>
 
           <motion.div
-            className="absolute top-0 left-0 h-[2px] bg-copper"
+            className="absolute top-0 left-0 h-[4px]"
+            style={{ background: "var(--cyan)" }}
             initial={{ width: "0%" }}
             animate={{ width: showLogo ? "100%" : `${(phase / STORY.length) * 100}%` }}
             transition={{ duration: 0.6, ease: "easeOut" }}

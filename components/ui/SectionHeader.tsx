@@ -10,13 +10,13 @@ export default function SectionHeader({
   subtitle?: string;
 }) {
   return (
-    <div className="mb-9">
+    <div className="mb-12">
       <Tag accent>{eyebrow}</Tag>
-      <h1 className="font-display text-3xl sm:text-4xl font-semibold mt-3 max-w-xl">
+      <h1 className="font-grotesk text-4xl sm:text-6xl font-bold mt-4 max-w-xl text-black/90">
         {title}
       </h1>
       {subtitle && (
-        <p className="mt-3 max-w-lg text-sm sm:text-base text-inksoft">
+        <p className="mt-4 max-w-lg text-base sm:text-lg text-black/70 font-medium">
           {subtitle}
         </p>
       )}

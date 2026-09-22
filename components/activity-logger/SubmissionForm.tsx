@@ -42,12 +42,12 @@ export default function SubmissionForm() {
     setForm({ activity: "", date: "", type: ACTIVITY_TYPES[0], role: "", proof: "" });
   }
 
-  const inputClass = "w-full px-3 py-2.5 text-sm bg-surface border border-line text-ink placeholder:text-muted";
-  const labelClass = "text-xs mono block mb-1.5 text-muted";
+  const inputClass = "w-full px-4 py-3 rounded-xl text-sm bg-white border-2 border-black/10 text-black placeholder:text-black/30 focus:border-black focus:outline-none transition-colors shadow-[0_2px_10px_rgba(0,0,0,0.02)]";
+  const labelClass = "font-mono text-xs font-bold uppercase tracking-widest block mb-2 text-black/50";
 
   return (
     <div className="grid md:grid-cols-2 gap-10">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5 island p-6 sm:p-8 border-2 border-black/10 bg-[#fafafa]">
         <div>
           <label className={labelClass}>Activity name</label>
           <input
@@ -103,15 +103,17 @@ export default function SubmissionForm() {
             className={inputClass}
           />
         </div>
-        <Button type="submit" className="w-full sm:w-auto">
-          Submit for verification
-        </Button>
-        {sent && <p className="text-xs text-signal">Submitted — status: Pending review.</p>}
+        <div className="pt-2">
+          <Button type="submit" className="w-full">
+            Submit for verification
+          </Button>
+        </div>
+        {sent && <p className="text-sm font-bold text-green-700 bg-green-100 p-3 rounded-lg text-center mt-2">Submitted — status: Pending review.</p>}
       </form>
 
       <div>
-        <h3 className="font-display text-lg font-semibold mb-4">Your submission history</h3>
-        <div className="space-y-3">
+        <h3 className="font-grotesk font-bold text-2xl mb-6 text-black/90">Your submission history</h3>
+        <div className="space-y-4">
           {[...SEED_SUBMISSIONS, ...submissions].map((s, i) => (
             <HistoryRow key={i} item={s} />
           ))}

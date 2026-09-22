@@ -19,11 +19,11 @@ export default function Button({
   children,
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center px-5 py-3 text-sm font-medium transition-transform duration-150";
+    "pill-btn border-2 border-black inline-flex items-center justify-center px-6 py-3 font-grotesk font-bold text-sm transition-all";
   const styles =
     variant === "primary"
-      ? "bg-ink text-paper border border-ink hover:bg-copperdeep hover:border-copperdeep hover:-translate-y-0.5"
-      : "border border-line text-ink hover:border-copper hover:-translate-y-0.5";
+      ? "bg-black text-white hover:bg-black/80 hover:scale-105"
+      : "bg-white text-black border-black/10 hover:border-black/30 hover:bg-black/5 hover:scale-105";
 
   const classes = cn(base, styles, className);
 

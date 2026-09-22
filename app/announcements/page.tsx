@@ -14,14 +14,14 @@ export default function AnnouncementsPage() {
       />
       <div className="space-y-4">
         {ANNOUNCEMENTS.map((a) => (
-          <div key={a.title} className="bracket p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
-            <span className="mono text-xs w-24 shrink-0 text-muted">{formatDate(a.date)}</span>
+          <div key={a.title} className="island p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 border-2 border-black/10 bg-white hover:bg-black/5 transition-colors">
+            <span className="font-mono text-xs font-bold w-24 shrink-0 text-black/40 uppercase tracking-widest">{formatDate(a.date)}</span>
             <Tag accent className="shrink-0 w-fit">
               {a.tag}
             </Tag>
             <div>
-              <div className="font-medium text-sm">{a.title}</div>
-              <div className="text-sm mt-1 text-inksoft">{a.body}</div>
+              <div className="font-grotesk font-bold text-lg text-black/90">{a.title}</div>
+              <div className="text-sm mt-1 font-medium text-black/60 leading-relaxed">{a.body}</div>
             </div>
           </div>
         ))}

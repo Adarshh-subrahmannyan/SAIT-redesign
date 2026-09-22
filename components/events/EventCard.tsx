@@ -5,24 +5,27 @@ import Tag from "@/components/ui/Tag";
 
 export default function EventCard({ event }: { event: EventItem }) {
   return (
-    <div className="bracket p-5">
-      <div className="flex items-center justify-between mb-3">
+    <div className="island p-6 bg-white border-2 border-black/10 hover:border-black/30 transition-colors">
+      <div className="flex items-center justify-between mb-4">
         <Tag accent>{event.tag}</Tag>
-        <span className="mono text-xs text-muted">{formatDate(event.date)}</span>
+        <span className="font-mono font-bold text-xs text-black/40">{formatDate(event.date)}</span>
       </div>
-      <h3 className="font-display text-lg font-semibold mb-1.5">
-        <Link href={`/events/${event.slug}`} className="hover:text-copperdeep">
+      <h3 className="font-grotesk text-2xl font-bold mb-2 text-black/90">
+        <Link href={`/events/${event.slug}`} className="hover:text-[var(--magenta)] transition-colors">
           {event.name}
         </Link>
       </h3>
-      <p className="text-sm mb-3 text-inksoft">{event.desc}</p>
-      <div className="flex items-center justify-between text-xs mono text-muted">
+      <p className="font-body font-medium text-sm mb-5 text-black/60 line-clamp-2">{event.desc}</p>
+      <div className="flex items-center justify-between text-xs font-mono font-bold text-black/40">
         <span>
           {event.time ? `${event.time} · ` : ""}
           {event.venue || ""}
         </span>
         {event.time && (
-          <Link href={`/events/${event.slug}`} className="border border-line px-3 py-1.5 hover:border-copper">
+          <Link 
+            href={`/events/${event.slug}`} 
+            className="pill-btn border-2 border-black/10 px-4 py-2 hover:border-black/30 hover:bg-black/5 text-black/70 hover:text-black transition-all"
+          >
             Details
           </Link>
         )}

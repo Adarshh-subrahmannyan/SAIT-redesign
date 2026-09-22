@@ -19,14 +19,16 @@ export default function EventFilter({
 
   return (
     <>
-      <div className="flex gap-2 mb-8 pb-1 overflow-x-auto">
+      <div className="flex flex-wrap gap-3 mb-10 pb-1">
         {EVENT_TAGS.map((t) => (
           <button
             key={t}
             onClick={() => setActive(t)}
             className={cn(
-              "whitespace-nowrap px-4 py-2 text-sm mono border border-line",
-              active === t && "bg-ink text-paper border-ink"
+              "pill-btn border-2 border-black/10 px-5 py-2.5 text-sm font-bold transition-all",
+              active === t 
+                ? "bg-black text-white border-black hover:bg-black/80 hover:scale-105" 
+                : "bg-white text-black/70 hover:border-black/30 hover:bg-black/5 hover:text-black hover:scale-105"
             )}
           >
             {t}
@@ -34,24 +36,24 @@ export default function EventFilter({
         ))}
       </div>
 
-      <div className="mb-16">
-        <h3 className="font-display text-lg font-semibold mb-5">Upcoming</h3>
-        <div className="grid sm:grid-cols-2 gap-5">
+      <div className="mb-20">
+        <h3 className="font-grotesk text-3xl font-bold mb-8 text-black/90">Upcoming</h3>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filt(upcoming).length ? (
             filt(upcoming).map((e) => <EventCard key={e.slug} event={e} />)
           ) : (
-            <p className="text-sm text-muted col-span-2">No upcoming events in this category.</p>
+            <p className="text-sm font-medium text-black/50 col-span-full">No upcoming events in this category.</p>
           )}
         </div>
       </div>
 
       <div>
-        <h3 className="font-display text-lg font-semibold mb-5">Past events — archive</h3>
-        <div className="grid sm:grid-cols-2 gap-5">
+        <h3 className="font-grotesk text-3xl font-bold mb-8 text-black/90">Past events</h3>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filt(past).length ? (
             filt(past).map((e) => <EventCard key={e.slug} event={e} />)
           ) : (
-            <p className="text-sm text-muted col-span-2">No past events in this category.</p>
+            <p className="text-sm font-medium text-black/50 col-span-full">No past events in this category.</p>
           )}
         </div>
       </div>
