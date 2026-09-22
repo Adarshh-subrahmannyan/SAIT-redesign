@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Github, Linkedin, ArrowRight } from "lucide-react";
-import Bracket from "./Bracket";
 
 export default function PersonCard({
   name,
@@ -19,53 +18,52 @@ export default function PersonCard({
 }) {
   return (
     <motion.div
-      whileHover={{ y: -2, scale: 1.01 }}
+      whileHover={{ y: -4, scale: 1.015 }}
       transition={{ duration: 0.15, ease: "easeOut" }}
-      className="group cursor-default"
+      className="group cursor-default island border-2 border-black/10 hover:border-black/30 transition-colors h-full p-5 bg-white"
     >
-      <Bracket className="p-4 h-full group-hover:border-copper transition-colors duration-200">
-        <div className="flex items-start gap-3">
-          <div className="w-11 h-11 border border-line flex items-center justify-center font-display text-xs shrink-0 text-copperdeep group-hover:border-copper transition-colors duration-200">
-            {initials}
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="font-display font-medium text-sm">{name}</div>
-            <div className="text-xs mt-0.5 text-muted">{role}</div>
-            {(github || linkedin) && (
-              <div className="flex gap-2.5 mt-2">
-                {github && (
-                  <a
-                    href={github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-muted hover:text-ink transition-colors"
-                    aria-label={`${name} GitHub`}
-                  >
-                    <Github size={12} />
-                  </a>
-                )}
-                {linkedin && (
-                  <a
-                    href={linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-muted hover:text-copper transition-colors"
-                    aria-label={`${name} LinkedIn`}
-                  >
-                    <Linkedin size={12} />
-                  </a>
-                )}
-              </div>
-            )}
-          </div>
-          <ArrowRight
-            size={13}
-            className="shrink-0 text-muted opacity-0 group-hover:opacity-100 transition-opacity mt-0.5"
-          />
+      <div className="flex items-start gap-4">
+        <div className="w-12 h-12 rounded-full border-2 border-black flex items-center justify-center font-grotesk font-bold text-sm shrink-0 transition-colors duration-200"
+          style={{ background: "var(--yellow)", color: "black" }}>
+          {initials}
         </div>
-      </Bracket>
+        <div className="min-w-0 flex-1">
+          <div className="font-grotesk font-bold text-base text-black/90">{name}</div>
+          <div className="font-body text-xs font-medium mt-1 text-black/60">{role}</div>
+          {(github || linkedin) && (
+            <div className="flex gap-2.5 mt-3">
+              {github && (
+                <a
+                  href={github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="w-7 h-7 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-black/70 hover:text-black transition-colors"
+                  aria-label={`${name} GitHub`}
+                >
+                  <Github size={12} strokeWidth={2.5} />
+                </a>
+              )}
+              {linkedin && (
+                <a
+                  href={linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="w-7 h-7 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-black/70 hover:text-[#0077b5] transition-colors"
+                  aria-label={`${name} LinkedIn`}
+                >
+                  <Linkedin size={12} strokeWidth={2.5} />
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+        <ArrowRight
+          size={16}
+          className="shrink-0 text-black/20 group-hover:text-black/60 transition-colors mt-1"
+        />
+      </div>
     </motion.div>
   );
 }

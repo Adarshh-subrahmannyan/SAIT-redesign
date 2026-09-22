@@ -30,14 +30,14 @@ const TIMELINE = [
   {
     year: "1995",
     label: "The Beginning",
-    text: "Department of Information Technology founded within CUSAT&apos;s School of Engineering. A handful of students, one hallway, and a vision to build the next generation of Kerala&apos;s engineers.",
+    text: "Department of Information Technology founded within CUSAT's School of Engineering. A handful of students, one hallway, and a vision to build the next generation of Kerala's engineers.",
     image: "/about-campus.jpg",
     imageAlt: "CUSAT School of Engineering campus",
   },
   {
     year: "2003",
     label: "SAIT is Born",
-    text: "SAIT formalised as the department&apos;s student association. Starting with INTERFACE — an annual technical magazine — the association gave students their first platform to publish, collaborate, and think beyond the curriculum.",
+    text: "SAIT formalised as the department's student association. Starting with INTERFACE — an annual technical magazine — the association gave students their first platform to publish, collaborate, and think beyond the curriculum.",
     image: "/about-workshop.jpg",
     imageAlt: "Students working on the INTERFACE magazine",
   },
@@ -51,7 +51,7 @@ const TIMELINE = [
   {
     year: "2026",
     label: "Going Digital",
-    text: "This site — and the Activity Logger — launch as SAIT&apos;s first digital record of student participation. Every workshop attended, every project shipped, now lives in one open, permanent record.",
+    text: "This site — and the Activity Logger — launch as SAIT's first digital record of student participation. Every workshop attended, every project shipped, now lives in one open, permanent record.",
     image: "/about-campus.jpg",
     imageAlt: "SAIT digital platform launch 2026",
   },
@@ -259,7 +259,7 @@ function InteractiveTimeline() {
               </span>
               <p className="text-inksoft leading-relaxed text-sm sm:text-base mb-8">
                 {item.text
-                  .replace(/&apos;/g, "\u2019")
+                  .replace(/'/g, "\u2019")
                   .replace(/&amp;/g, "&")}
               </p>
               {/* Navigation arrows */}

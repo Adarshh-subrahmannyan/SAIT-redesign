@@ -11,12 +11,39 @@ import CTASection from "@/components/home/CTASection";
 export default function HomePage() {
   return (
     <>
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-8 sm:pt-12">
+      <div className="max-w-7xl mx-auto">
         <Hero />
+      </div>
+      
+      {/* Marquee Banner */}
+      <div className="border-y-2 border-black/10 py-3 overflow-hidden bg-white mb-16 sm:mb-24 flex">
+        <div className="marquee-track flex items-center gap-12 font-grotesk font-bold text-sm tracking-wide uppercase">
+          {Array(10).fill("").map((_, i) => (
+            <div key={i} className="flex items-center gap-12 shrink-0">
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                Registrations for TechSummit &apos;26 close soon
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                Alumni talk series: Big Tech interviews
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full" style={{ background: "var(--yellow)" }}></span>
+                New SAIT website beta is live
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <StatsHighlight />
       </div>
+
       <StorySection />
-      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <FeaturedEvent />
         <CommunitySection />
         <AchievementsStrip />

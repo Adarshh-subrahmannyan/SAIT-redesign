@@ -11,6 +11,7 @@ type AnimatedTextProps = {
   as?: "h1" | "h2" | "h3" | "p" | "span";
   splitBy?: "char" | "word";
   once?: boolean;
+  style?: React.CSSProperties;
 };
 
 export default function AnimatedText({
@@ -20,13 +21,14 @@ export default function AnimatedText({
   as: Tag = "span",
   splitBy = "word",
   once = true,
+  style,
 }: AnimatedTextProps) {
   const ref = useRef(null);
   const inView = useInView(ref, { once, margin: "-80px" });
   const units = splitBy === "char" ? text.split("") : text.split(" ");
 
   return (
-    <Tag ref={ref} className={cn("inline-flex flex-wrap", className)} aria-label={text}>
+    <Tag ref={ref} className={cn("inline-flex flex-wrap", className)} style={style} aria-label={text}>
       {units.map((unit, i) => (
         <span key={`${unit}-${i}`} className="overflow-hidden inline-block">
           <motion.span

@@ -4,53 +4,53 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import AnimatedText from "@/components/animations/AnimatedText";
 import ScrollReveal from "@/components/animations/ScrollReveal";
-import Tag from "@/components/ui/Tag";
 
 export default function FeaturedEvent() {
   return (
-    <section className="mb-24 sm:mb-32 md:mb-40">
-      <ScrollReveal>
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-7 gap-3">
-          <div>
-            <Tag accent>Upcoming flagship</Tag>
-            <AnimatedText
-              as="h2"
-              text="TechSummit & HackSprint '26"
-              className="font-display font-semibold text-2xl sm:text-4xl lg:text-5xl mt-4 block leading-tight"
-              splitBy="word"
-            />
-          </div>
-          <Link
-            href="/events/codesprint-hackathon"
-            className="flex items-center gap-1 mono text-sm text-copperdeep hover:text-copper transition-colors shrink-0 self-end"
-          >
-            Register <ArrowUpRight size={16} />
-          </Link>
+    <section className="mb-16 sm:mb-24">
+      <ScrollReveal className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-3">
+        <div>
+          <span className="sticker text-xs font-grotesk font-bold mb-3 inline-block"
+            style={{ background: "var(--magenta)", color: "white", border: "2px solid transparent" }}>
+            ★ Upcoming flagship
+          </span>
+          <AnimatedText
+            as="h2"
+            text="TechSummit & HackSprint '26"
+            className="font-grotesk font-bold text-2xl sm:text-4xl lg:text-5xl mt-3 block leading-tight"
+            splitBy="word"
+          />
         </div>
+        <Link
+          href="/events/codesprint-hackathon"
+          className="pill-btn px-5 py-2.5 text-sm font-grotesk font-bold shrink-0 self-end"
+          style={{ background: "var(--ink)", color: "white" }}
+        >
+          Register <ArrowUpRight size={15} />
+        </Link>
       </ScrollReveal>
 
       <ScrollReveal delay={0.15}>
         <Link
           href="/events/codesprint-hackathon"
-          className="group relative block overflow-hidden border border-line bg-surface bracket"
+          className="group island block overflow-hidden border-2 border-black/10 hover:border-black/30 transition-colors"
+          style={{ background: "var(--cyan)" }}
         >
-          <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
-          <div className="relative grid md:grid-cols-2 gap-0">
+          <div className="grid md:grid-cols-2 gap-0">
             {/* Left: details */}
-            <div className="p-7 sm:p-10 flex flex-col justify-center">
-              <p className="mono text-xs text-muted uppercase tracking-widest mb-3">
+            <div className="p-8 sm:p-12 flex flex-col justify-center">
+              <p className="font-mono text-xs text-black/50 uppercase tracking-widest mb-4">
                 October 12–13, 2026 · CUSAT Seminar Complex
               </p>
-              <p className="text-inksoft leading-relaxed mb-6 text-sm sm:text-base">
-                A 24-hour national hackathon &amp; tech symposium bringing
-                together 300+ developers from across India for hardware, AI,
-                web3, and cloud innovation.
+              <p className="text-black/80 leading-relaxed mb-6 text-sm sm:text-base font-body">
+                A 24-hour national hackathon & tech symposium bringing together
+                300+ developers from across India for hardware, AI, web3, and cloud innovation.
               </p>
               <div className="flex flex-wrap gap-2">
                 {["AI / ML", "Web3", "Cloud Systems", "₹1,00,000 Prizes"].map((t) => (
                   <span
                     key={t}
-                    className="mono text-[10px] px-3 py-1.5 border border-line text-muted group-hover:border-copper/50 transition-colors"
+                    className="font-mono text-[10px] px-3 py-1.5 rounded-full border-2 border-black/20 font-bold bg-white/60"
                   >
                     {t}
                   </span>
@@ -58,18 +58,15 @@ export default function FeaturedEvent() {
               </div>
             </div>
 
-            {/* Right: decorative accent panel — uses design tokens, no hardcoded navy */}
-            <div className="relative min-h-[200px] sm:min-h-[260px] md:min-h-[300px] bg-paperalt border-t md:border-t-0 md:border-l border-line flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-              <span className="font-display font-bold text-[clamp(4rem,10vw,8rem)] text-copper/20 select-none group-hover:text-copper/35 transition-colors duration-700 leading-none">
+            {/* Right: accent panel */}
+            <div className="relative min-h-[200px] sm:min-h-[260px] md:min-h-[300px] flex items-center justify-center overflow-hidden"
+              style={{ background: "var(--indigo-dark)" }}>
+              <span className="font-grotesk font-bold text-[clamp(5rem,14vw,10rem)] text-white/10 select-none group-hover:text-white/20 transition-colors duration-700 leading-none">
                 24H
               </span>
-              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-copper/5 pointer-events-none" />
-              <div className="absolute bottom-5 left-6 right-6 flex justify-between items-end">
-                <span className="mono text-xs text-muted">Non-stop hackathon</span>
-                <span className="font-display text-xl font-semibold text-copper">
-                  Open
-                </span>
+              <div className="absolute bottom-6 left-8 right-8 flex justify-between items-end">
+                <span className="font-mono text-xs text-white/40">Non-stop hackathon</span>
+                <span className="font-grotesk text-xl font-bold" style={{ color: "var(--yellow)" }}>Open →</span>
               </div>
             </div>
           </div>
