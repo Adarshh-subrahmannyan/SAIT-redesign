@@ -4,21 +4,33 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Bell } from "lucide-react";
 import { NAV } from "@/data/nav";
+import { ANNOUNCEMENTS } from "@/data/announcements";
 import { cn } from "@/lib/utils";
 import { useIntro } from "@/components/providers/IntroProvider";
 
-// First 3 items shown directly; the rest go in "More"
+// Items shown directly; /announcements moved to bell icon
 const PRIMARY_HREFS = ["/", "/about", "/events"];
+const EXCLUDE_FROM_MORE = [...PRIMARY_HREFS, "/announcements"];
+
+// Tag colour helper
+const tagColor = (tag: string) => {
+  if (tag === "Deadline") return "text-red-500 border-red-300";
+  if (tag === "Event") return "text-copper border-copper/60";
+  return "text-muted border-line";
+};
 
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [bellOpen, setBellOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(ANNOUNCEMENTS.length);
   const [scrolled, setScrolled] = useState(false);
   const { introComplete } = useIntro();
   const moreRef = useRef<HTMLDivElement>(null);
+  const bellRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -26,26 +38,31 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => setMobileOpen(false), [pathname]);
+  useEffect(() => setMoreOpen(false), [pathname]);
+  useEffect(() => setBellOpen(false), [pathname]);
 
-  // Close "More" dropdown when clicking outside
+  // Close dropdowns on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
-        setMoreOpen(false);
-      }
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false);
+      if (bellRef.current && !bellRef.current.contains(e.target as Node)) setBellOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Close dropdown on route change
-  useEffect(() => setMoreOpen(false), [pathname]);
-
   const primaryNav = NAV.filter((n) => PRIMARY_HREFS.includes(n.href));
-  const moreNav = NAV.filter((n) => !PRIMARY_HREFS.includes(n.href));
+  const moreNav = NAV.filter((n) => !EXCLUDE_FROM_MORE.includes(n.href));
   const moreIsActive = moreNav.some((n) => pathname === n.href);
+
+  const handleBellOpen = () => {
+    setBellOpen((o) => {
+      if (!o) setUnreadCount(0); // mark as read when opened
+      return !o;
+    });
+    setMoreOpen(false);
+  };
 
   return (
     <motion.header
@@ -105,7 +122,7 @@ export default function Navbar() {
               id="more-menu-btn"
               aria-haspopup="true"
               aria-expanded={moreOpen}
-              onClick={() => setMoreOpen((o) => !o)}
+              onClick={() => { setMoreOpen((o) => !o); setBellOpen(false); }}
               className={cn(
                 "relative flex items-center gap-1 py-1 text-inksoft hover:text-ink transition-colors duration-150 font-body tracking-wide",
                 moreIsActive && "text-ink"
@@ -151,9 +168,7 @@ export default function Navbar() {
                         )}
                       >
                         {n.label}
-                        {active && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-copper" />
-                        )}
+                        {active && <span className="w-1.5 h-1.5 rounded-full bg-copper" />}
                       </Link>
                     );
                   })}
@@ -161,17 +176,106 @@ export default function Navbar() {
               )}
             </AnimatePresence>
           </div>
+
+          {/* Bell icon */}
+          <div ref={bellRef} className="relative">
+            <button
+              id="bell-btn"
+              aria-label="Announcements"
+              aria-expanded={bellOpen}
+              onClick={handleBellOpen}
+              className="relative w-8 h-8 flex items-center justify-center text-inksoft hover:text-ink transition-colors"
+            >
+              <Bell size={17} strokeWidth={1.75} />
+              {unreadCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-copper text-paper text-[9px] font-bold flex items-center justify-center leading-none">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
+            <AnimatePresence>
+              {bellOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className="absolute right-0 top-full mt-3 w-80 border border-line bg-paper/98 backdrop-blur-md shadow-lg"
+                  role="dialog"
+                  aria-labelledby="bell-btn"
+                >
+                  {/* Header */}
+                  <div className="flex items-center justify-between px-4 py-3 border-b border-line">
+                    <span className="font-display text-sm font-semibold">Announcements</span>
+                    <Link
+                      href="/announcements"
+                      className="text-xs text-copper hover:underline"
+                    >
+                      View all
+                    </Link>
+                  </div>
+
+                  {/* List — show latest 4 */}
+                  <div className="divide-y divide-line/50 max-h-80 overflow-y-auto">
+                    {ANNOUNCEMENTS.slice(0, 4).map((a) => (
+                      <div key={a.title} className="px-4 py-3 hover:bg-line/20 transition-colors">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={cn("text-[10px] border px-1.5 py-0.5 font-mono uppercase tracking-wide", tagColor(a.tag))}>
+                            {a.tag}
+                          </span>
+                          <span className="text-[10px] text-muted font-mono">
+                            {new Date(a.date).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
+                          </span>
+                        </div>
+                        <p className="text-sm font-medium leading-snug">{a.title}</p>
+                        <p className="text-xs text-inksoft mt-0.5 leading-relaxed line-clamp-1">{a.body}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Footer */}
+                  <div className="border-t border-line px-4 py-2.5">
+                    <Link
+                      href="/announcements"
+                      className="text-xs text-inksoft hover:text-ink transition-colors"
+                    >
+                      See all {ANNOUNCEMENTS.length} announcements →
+                    </Link>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </nav>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setMobileOpen((o) => !o)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
-          className="lg:hidden w-9 h-9 flex items-center justify-center text-inksoft hover:text-ink transition-colors"
-        >
-          {mobileOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
-        </button>
+        {/* Right side: bell (mobile) + hamburger */}
+        <div className="flex items-center gap-2 lg:hidden">
+          {/* Bell on mobile too */}
+          <div ref={undefined} className="relative">
+            <button
+              aria-label="Announcements"
+              onClick={() => setBellOpen((o) => !o)}
+              className="relative w-8 h-8 flex items-center justify-center text-inksoft hover:text-ink transition-colors"
+            >
+              <Bell size={17} strokeWidth={1.75} />
+              {unreadCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-copper text-paper text-[9px] font-bold flex items-center justify-center leading-none">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+          </div>
+
+          <button
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            className="w-9 h-9 flex items-center justify-center text-inksoft hover:text-ink transition-colors"
+          >
+            {mobileOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -185,7 +289,7 @@ export default function Navbar() {
             className="lg:hidden border-t border-line bg-paper/98 backdrop-blur-md px-5 py-3 flex flex-col"
             aria-label="Mobile navigation"
           >
-            {NAV.map((n) => (
+            {NAV.filter((n) => n.href !== "/announcements").map((n) => (
               <Link
                 key={n.href}
                 href={n.href}
@@ -200,7 +304,42 @@ export default function Navbar() {
           </motion.nav>
         )}
       </AnimatePresence>
+
+      {/* Bell panel on mobile (full-width overlay) */}
+      <AnimatePresence>
+        {bellOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="lg:hidden border-t border-line bg-paper/98 backdrop-blur-md"
+          >
+            <div className="flex items-center justify-between px-5 py-3 border-b border-line">
+              <span className="font-display text-sm font-semibold">Announcements</span>
+              <Link href="/announcements" className="text-xs text-copper hover:underline">
+                View all
+              </Link>
+            </div>
+            <div className="divide-y divide-line/50">
+              {ANNOUNCEMENTS.slice(0, 4).map((a) => (
+                <div key={a.title} className="px-5 py-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={cn("text-[10px] border px-1.5 py-0.5 font-mono uppercase tracking-wide", tagColor(a.tag))}>
+                      {a.tag}
+                    </span>
+                    <span className="text-[10px] text-muted font-mono">
+                      {new Date(a.date).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
+                    </span>
+                  </div>
+                  <p className="text-sm font-medium leading-snug">{a.title}</p>
+                  <p className="text-xs text-inksoft mt-0.5 leading-relaxed">{a.body}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }
-
